@@ -1,0 +1,2 @@
+# SCALAarc
+learn scala
