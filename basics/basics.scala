@@ -8,7 +8,7 @@ Expressions are computable statements: //
 println(1)//O/P: 1                       //
 println(1+1)//O/P:2                      //
 println("hello world")//O/P:hello world  //
-println("hello"+"world")//O/P:hello world  //
+println("hello"+"world")//O/P:hello world//
 ///////////////////////////////////////////
 
 ////////////////////////////////////////////
@@ -100,6 +100,90 @@ println(squaredString(2.5)) // 6.25                                             
 
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+CLASSES:                                                                                                                                        //
+                                                                                                                                                //
+classes are defined using the class keyword                                                                                                     //
+ex:                                                                                                                                             //
+                                                                                                                                                //
+class Greeter(prefix: String, suffix: String):  //naming convention: class name should start with capital letter                                //
+  def greet(name: String): Unit=                //return type of method is unit because we are not returning anything. it is like "void" in c   //
+    println(prefix+name+suffix)                                                                                                                 //
+                                                                                                                                                //
+val greeter=Greeter("Hello", "how are you?")                                                                                                    //
+greeter.greet("Zain")                                                                                                                           //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-CLASES:
 
+/////////////////////////////////////////////////////////////////
+CASE CLASSES:                                                  //
+                                                               //
+instance of case class is immutable                            // 
+u can define it using case class keyword                       // 
+                                                               // 
+case class Point(x: Int, y: Int)                               //
+                                                               //
+creating instanaces of the case class                          //
+                                                               // 
+val point1=Point(1,2)                                          //
+val point2=Point(2,3)                                          //
+val point3=Point(2,3)                                          //
+//no need of "new" keyword                                     //
+                                                               // 
+instances of case classes are compared by value not reference: //
+println(point2==point3) //O/P: true                            //
+/////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+OBJECTS:                                                                                                                                                              //
+                                                                                                                                                                      //
+objects in scala are singleton classes(classes which can have only a single instance)                                                                                 //
+objects are created using the object keyword                                                                                                                          //
+                                                                                                                                                                      //
+object IDmaker:          here the object has name IDmaker, scala automatically creates instance with the name 'IDmaker' which will be the only instance of this object//
+  private var id=0  //private keyword makes the variable only accesible in the object scope only u cant access it using IDaker.id                                     //
+def creatID(): Int=                                                                                                                                                   //
+    id++                                                                                                                                                              //
+    id                                                                                                                                                                //
+                                                                                                                                                                      //
+val id1= IDmaker.create()                                                                                                                                             //
+println(id1)                                                                                                                                                          //
+val id2= IDmaker.create()                                                                                                                                             //
+println(id2)                                                                                                                                                          // 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+TRAITS:                                                                                                                      //
+                                                                                                                             //
+traits are like classes, in scala a class can only inherit from only 1 other class, but a class can inherit from many traits,//
+scala supports multiple inheritance only thru trait,                                                                         //
+                                                                                                                             // 
+traits can be defined using trait keywordd                                                                                   //
+                                                                                                                             // 
+trait Greeter:                                                                                                               //
+  def greet(name: String): Unit                                                                                              //
+                                                                                                                             // 
+you cann also implement code in the metjod of the trait                                                                      //
+                                                                                                                             // 
+trait Greeter:                                                                                                               // 
+  def greet(name: String)=                                                                                                   // 
+    println("Hello"+name)                                                                                                    //
+                                                                                                                             // 
+                                                                                                                             // 
+extending a trait using class, also a demonstration of 'override' keyword to override a method                               // 
+                                                                                                                             // 
+class CustomGreeter(prefix: String, postfix: String) extends Greeter:                                                        //
+  override def greet(name: String): Unit=                                                                                    //  
+    println(prefix+name+postfix)                                                                                             //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+The main method is the entry point of a Scala program. The Java Virtual Machine requires a main method, named main, that takes one argument: an array of strings.
+
+In Scala 3, with the @main annotation, a main method is automatically generated from a method as follows:
+
+@main def hello() = println("Hello, Scala developer!")
