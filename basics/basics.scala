@@ -91,9 +91,10 @@ println(ans())                                                                  
                                                                                                                           //
 methods can have multiline expressions                                                                                    //
                                                                                                                           //
-def squaredString(x: Double):String=                                                                                      //
+def squaredString(x: Double):String= {                                                                                    //
   val square=x*x                                                                                                          //
-  square.toString                                                                                                         //
+  square.toString                                                                                                         // 
+}                                                                                                                         //
 println(squaredString(2.5)) // 6.25                                                                                       //
 //The last expression in the body is the method’s return value. (Scala does have a return keyword, but it is rarely used.)//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,11 +107,11 @@ CLASSES:                                                                        
 classes are defined using the class keyword                                                                                                     //
 ex:                                                                                                                                             //
                                                                                                                                                 //
-class Greeter(prefix: String, suffix: String):  //naming convention: class name should start with capital letter                                //
+class Greeter(prefix: String, suffix: String){  //naming convention: class name should start with capital letter                                //
   def greet(name: String): Unit=                //return type of method is unit because we are not returning anything. it is like "void" in c   //
     println(prefix+name+suffix)                                                                                                                 //
-                                                                                                                                                //
-val greeter=Greeter("Hello", "how are you?")                                                                                                    //
+}                                                                                                                                               //
+val greeter=new Greeter("Hello", "how are you?")                                                                                                //
 greeter.greet("Zain")                                                                                                                           //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -142,12 +143,13 @@ OBJECTS:                                                                        
 objects in scala are singleton classes(classes which can have only a single instance)                                                                                 //
 objects are created using the object keyword                                                                                                                          //
                                                                                                                                                                       //
-object IDmaker:          here the object has name IDmaker, scala automatically creates instance with the name 'IDmaker' which will be the only instance of this object//
+object IDmaker{          here the object has name IDmaker, scala automatically creates instance with the name 'IDmaker' which will be the only instance of this object//
   private var id=0  //private keyword makes the variable only accesible in the object scope only u cant access it using IDaker.id                                     //
-def creatID(): Int=                                                                                                                                                   //
+def creatID(): Int={                                                                                                                                                  //
     id++                                                                                                                                                              //
     id                                                                                                                                                                //
-                                                                                                                                                                      //
+              }                                                                                                                                                       //
+              }                                                                                                                                                       //
 val id1= IDmaker.create()                                                                                                                                             //
 println(id1)                                                                                                                                                          //
 val id2= IDmaker.create()                                                                                                                                             //
@@ -163,27 +165,31 @@ scala supports multiple inheritance only thru trait,                            
                                                                                                                              // 
 traits can be defined using trait keywordd                                                                                   //
                                                                                                                              // 
-trait Greeter:                                                                                                               //
+trait Greeter{                                                                                                               //
   def greet(name: String): Unit                                                                                              //
-                                                                                                                             // 
+}                                                                                                                            // 
 you cann also implement code in the metjod of the trait                                                                      //
                                                                                                                              // 
-trait Greeter:                                                                                                               // 
+trait Greeter{                                                                                                               // 
   def greet(name: String)=                                                                                                   // 
     println("Hello"+name)                                                                                                    //
-                                                                                                                             // 
+}                                                                                                                            // 
                                                                                                                              // 
 extending a trait using class, also a demonstration of 'override' keyword to override a method                               // 
                                                                                                                              // 
-class CustomGreeter(prefix: String, postfix: String) extends Greeter:                                                        //
+class CustomGreeter(prefix: String, postfix: String) extends Greeter{                                                        //
   override def greet(name: String): Unit=                                                                                    //  
     println(prefix+name+postfix)                                                                                             //
+}                                                                                                                            //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
 The main method is the entry point of a Scala program. The Java Virtual Machine requires a main method, named main, that takes one argument: an array of strings.
 
-In Scala 3, with the @main annotation, a main method is automatically generated from a method as follows:
+In Scala 2 you must define a main method manually. Using an object, you can define the main method as follows:
 
-@main def hello() = println("Hello, Scala developer!")
+object Main {
+  def main(args: Array[String]): Unit =
+    println("Hello, Scala developer!")
+}
