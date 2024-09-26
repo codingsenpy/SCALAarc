@@ -3,7 +3,7 @@ object UserID{
 
   def unapply(userid:String):Option[String]={
     val arrofstr: Array[String]=userid.split("--")
-    if(arrofstr.tail.nonEmpty) Some(arrofstr.head) else None
+    if(arrofstr.tail.nonEmpty) Some(arrofstr.head) else None  //head is first element of lis, tail is every element after the first element
   }
 }
 
