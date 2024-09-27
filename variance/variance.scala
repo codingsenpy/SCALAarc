@@ -1,6 +1,6 @@
 /////////////////////////////////////////                                                                                                 
-/class Foo[+A] // A covariant class    //                                                                                                 
-/class Bar[-A] // A contravariant class//                                                                                                 
+/class Foo[+A] // A covariant class    //        can only get                                                                                         
+/class Bar[-A] // A contravariant class//                                can only put                                                                 
 /class Baz[A]  // An invariant class   //                                                                                                 
 /////////////////////////////////////////
 
@@ -66,3 +66,18 @@ Passing Lists: When you call printAnimalNames(cats) or printAnimalNames(dogs), t
 Since both List[Cat] and List[Dog] are subtypes of List[Animal], the method accepts them without any compilation errors                                                            //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+CONTRAVARIANCE:                                                                                                                                      //
+                                                                                                                                                     //
+abstract class Serializer[-A]{                                                                                                                       //
+  def serialize(a:A):String                                                                                                                          //
+}                                                                                                                                                    //
+val animalSerializer: Serializer[Animal] = new Serializer[Animal]{                                                                                   //
+  def serialize(animals:Animal):String=s"""{ "name": "${animal.name}" }"""                                                                           //
+}                                                                                                                                                    //
+val catserializer: serializer[Cat]=animalSerializer                                                                                                  //
+catSerializer.serialize(Cat("Felix"))                                                                                                                //
+                                                                                                                                                     //
+More formally, that gives us the reverse relationship: given some class Contra[-T], then if A is a subtype of B, Contra[B] is a subtype of Contra[A].//
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
