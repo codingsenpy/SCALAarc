@@ -39,6 +39,9 @@ CALLBACKS:
 so far we've seen how to asynchronously run a code where we fetch data, what about the part when we recreive the data? how to handle that?
 this is what callbacks are
 
+the callback is executed by some thread, at some time after the future object is completed. We say that the callback is executed eventually.
+
+
 The most general form of registering a callback is by using the onComplete method, which takes a callback function of type Try[T] => U. 
 The callback is applied to the value of type Success[T] if the future completes successfully, or to a value of type Failure[T] otherwise.
 The Try[T] is similar to Option[T]:
@@ -84,3 +87,24 @@ firstOccurrence.onComplete {
   case Success(idx) => println("The keyword first appears at position: " + idx)
   case Failure(t) => println("Could not process file: " + t.getMessage)
 }
+
+
+RACECONDIONS in callbacks:
+
+@volatile var totalA = 0  //'@volatile' ensures that totalA is always visible to all threads immediately when updated, preventing them from using outdated (cached) values
+
+val text = Future {
+  "na" * 16 + "BATMAN!!!"
+}
+text.foreach { txt =>
+  totalA += txt.count(_ == 'a')
+}
+text.foreach { txt =>
+  totalA += txt.count(_ == 'A')
+}
+
+here value of totalA can either be 2 or 16
+
+The possible values of totalA given the race condition:
+        •16: If only the lowercase 'a' count (16) is added and the uppercase 'A' count is missed.
+        •2: If only the uppercase 'A' count (2) is added and the lowercase 'a' count is missed.
