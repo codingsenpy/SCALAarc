@@ -108,3 +108,58 @@ here value of totalA can either be 2 or 16
 The possible values of totalA given the race condition:
         •16: If only the lowercase 'a' count (16) is added and the uppercase 'A' count is missed.
         •2: If only the uppercase 'A' count (2) is added and the lowercase 'a' count is missed.
+
+
+
+Suppose we want to buy US dollars, but only when it’s profitable. We first show how this could be done using callbacks:
+val rateQuote = Future {
+  connection.getCurrentValue(USD)
+}
+                                                            //This works, but is inconvenient for two reasons. First, we have to use foreach and nest the second purchase future within it. 
+for (quote <- rateQuote) {                                  //Imagine that after the purchase is completed we want to sell some other currency. We would have to repeat this pattern within the foreach callback.
+  val purchase = Future {
+    if (isProfitable(quote)) connection.buy(amount, quote)  ///Second, the purchase future is not in the scope with the rest of the code – it can only be acted upon from within the foreach callback.
+    else throw new Exception("not profitable")              // This means that other parts of the application do not see the purchase future and cannot register another foreach callback to it for example to sell some other currency.
+  }
+
+  for (amount <- purchase)
+    println("Purchased " + amount + " USD")
+}
+
+
+previous example using the map combinator:    //map: Transforms the result of the Future and returns a new Future.
+val rateQuote = Future {                                    // It allows you to apply a function to the value inside the Future and return the result wrapped in another Future
+
+  connection.getCurrentValue(USD)
+}
+
+val purchase = rateQuote.map { quote =>
+  if (isProfitable(quote)) connection.buy(amount, quote)
+  else throw new Exception("not profitable")
+}
+
+purchase.foreach { amount =>
+  println("Purchased " + amount + " USD")
+}
+
+
+
+IF U WANT TO ACCESS MULTIPLE FUTURES USING 1BLOCK OF CODE THIS CAN BE DONE USING FOR COMPREHENSION
+AND YES THIS IS LIKE THE REGULAR 'FOR COMPREHENSION':
+
+ ex: we want to exchange US dollars for Swiss francs (CHF). We have to fetch quotes for both currencies, and then decide on buying based on both quotes.
+
+val usdQuote = Future { connection.getCurrentValue(USD) }
+val chfQuote = Future { connection.getCurrentValue(CHF) }
+
+val purchase = for {
+  usd <- usdQuote
+  chf <- chfQuote
+  if isProfitable(usd, chf)
+} yield connection.buy(amount, chf)
+
+purchase foreach { amount =>
+  println("Purchased " + amount + " CHF")
+}
+
+
